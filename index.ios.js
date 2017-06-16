@@ -12,15 +12,17 @@ Navigator,
 import { Router, Scene } from 'react-native-router-flux';
 
 import Home from "./home";
-import Second from "./second_view"
+import MapPage from './map'
+import AnimatedMap from './animated_map'
 class wheelappeal extends Component {
 
   render() {
     return (
       <Router>
         <Scene key = 'root'>
-          <Scene key = 'home' title="Home" component = {(props) => <Home {...props}/>} hideNavBar = {true} />
-          <Scene key = 'second' title="Second" component = {(props) => <Second {...props}/>} hideNavBar = {true} />
+          <Scene key = 'animatedmap' title="AnimatedMap" component = {(props) => <AnimatedMap {...props}/>} hideNavBar = {true} />
+          <Scene key = 'home' title="Home" component = {(props) => <Home {...props}/>} hideNavBar = {true} initial = {true}/>
+          <Scene key = 'mappage' title="MapPage" component = {(props) => <MapPage {...props}/>} hideNavBar = {true}  />
         </Scene>
       </Router>
     )

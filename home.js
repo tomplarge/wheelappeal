@@ -44,7 +44,7 @@ export default class home extends Component {
             console.log("onPressIn...");
         }}
             onPressOut={() => {
-          Actions.second();
+          Actions.mappage();
         }}
           />
         </View>
@@ -72,5 +72,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-
-AppRegistry.registerComponent('wheelappeal', () => wheelappeal);
