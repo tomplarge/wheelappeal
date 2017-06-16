@@ -1,52 +1,30 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+* Sample React Native App
+* https://github.com/facebook/react-native
+* @flow
+*/
+import React, { Component} from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
+AppRegistry,
+Navigator,
 } from 'react-native';
 
-export default class wheelappeal extends Component {
+import { Router, Scene } from 'react-native-router-flux';
+
+import Home from "./home";
+import Second from "./second_view"
+class wheelappeal extends Component {
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-asdfjasd;lfkjasdf        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
+      <Router>
+        <Scene key = 'root'>
+          <Scene key = 'home' title="Home" component = {(props) => <Home {...props}/>} hideNavBar = {true} />
+          <Scene key = 'second' title="Second" component = {(props) => <Second {...props}/>} hideNavBar = {true} />
+        </Scene>
+      </Router>
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('wheelappeal', () => wheelappeal);
+AppRegistry.registerComponent('wheelappeal', () => wheelappeal)
