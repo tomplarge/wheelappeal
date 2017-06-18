@@ -11,18 +11,17 @@ Navigator,
 
 import { Router, Scene } from 'react-native-router-flux';
 
-import Home from "./home";
+//import Home from "./home";
 import MapPage from './map'
-import AnimatedMap from './animated_map'
+import PanResponder from './PanResponderExample'
 class wheelappeal extends Component {
 
   render() {
     return (
       <Router>
         <Scene key = 'root'>
-          <Scene key = 'animatedmap' title="AnimatedMap" component = {(props) => <AnimatedMap {...props}/>} hideNavBar = {true} />
-          <Scene key = 'home' title="Home" component = {(props) => <Home {...props}/>} hideNavBar = {true} initial = {true}/>
-          <Scene key = 'mappage' title="MapPage" component = {(props) => <MapPage {...props}/>} hideNavBar = {true}  />
+          <Scene key = 'mappage' title="MapPage" component = {(props) => <MapPage {...props}/>} hideNavBar = {true} initial = {true}   />
+          <Scene key = 'example' title="example" component = {(props) => <PanResponder {...props}/>} hideNavBar = {true} />
         </Scene>
       </Router>
     )
