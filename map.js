@@ -131,14 +131,14 @@ export default class MapPage extends Component {
                 title={marker.key.toString()}
               />
             ))}
-          </MapView>
-          <FlatList
-            horizontal={true}
-            data={markers}
-            renderItem={({ marker }) => (
-              <MapViewPanController/>
-            )}
-          />
+        </MapView>
+        <FlatList
+          horizontal={true}
+          data={markers}
+          renderItem={({ marker }) => (
+            <MapViewPanController/>
+          )}
+        />
       </View>
     );
   }
