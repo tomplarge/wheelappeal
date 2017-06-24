@@ -1,6 +1,7 @@
 import MapView from 'react-native-maps';
 import React, {Component} from "react";
 import PreviewScrollItem from './PreviewScrollItem';
+import SearchBar from 'react-native-searchbar'
 //import PreviewPanController from './PreviewPanController'
 import {
     Text,
@@ -103,6 +104,9 @@ export default class MapPage extends Component {
 
     return (
       <View style = {styles.container}>
+          <SearchBar
+            showOnLoad
+          />
           <MapView
             style={ styles.map }
             region={this.state.region}
