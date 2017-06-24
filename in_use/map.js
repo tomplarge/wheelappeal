@@ -16,7 +16,7 @@ const LONGITUDE = -122.4324;
 
 const screen = Dimensions.get('window');
 
-const previewBlockHeight = 100;
+const previewBlockHeight = 75;
 const previewBlockWidth = screen.width*7/10;
 const previewBlockSpacing = 10;
 
@@ -92,6 +92,10 @@ export default class MapPage extends Component {
     this.setState({region})
   }
 
+  componentWillMount(){
+    this.render()
+  }
+
   render() {
     const {
       markers,
@@ -113,9 +117,19 @@ export default class MapPage extends Component {
             ))}
         </MapView>
         <FlatList
-          style = {{top: 400}}
+          style = {{
+            top: screen.height - 125,
+            shadowColor: '#000000',
+            shadowOffset: {
+              width: 0,
+              height: 3
+            },
+            shadowRadius: 5,
+            shadowOpacity: 1.0
+          }}
           horizontal={true}
           data={markers}
+
           renderItem={({ marker }) => (
             <PreviewScrollItem style = {{top: 0}}/>
           )}

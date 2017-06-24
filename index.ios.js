@@ -12,9 +12,9 @@ Navigator,
 import { Router, Scene } from 'react-native-router-flux';
 
 import MapPage from './in_use/map'
-//import AnimatedViews from './in_use/AnimatedViews'
 import TitlePage from './in_use/title'
 import TruckView from './in_use/truck_view'
+
 class wheelappeal extends Component {
 
   animationStyle = (props) => {
@@ -46,13 +46,13 @@ class wheelappeal extends Component {
       case 'horizontal':
         translateX = position.interpolate({
           inputRange,
-          outputRange: [width, 0, 0],
+          outputRange: [0, 0, 0],
         });
         break;
       case 'vertical':
         translateY = position.interpolate({
           inputRange,
-          outputRange: [height, 0, 0],
+          outputRange: [0, 0, 0],
         });
         break;
     }
@@ -72,8 +72,8 @@ class wheelappeal extends Component {
     return (
       <Router>
         <Scene key = 'root'>
-          <Scene key = 'title'  component = {(props) => <TitlePage {...props}/>} hideNavBar  duration = {0}/>
-          <Scene key = 'mappage'  component = {(props) => <MapPage {...props}/>} animationStyle = {this.animationStyle} hideNavBar/>
+          <Scene key = 'title'  component = {(props) => <TitlePage {...props}/>} hideNavBar/>
+          <Scene key = 'mappage'  component = {(props) => <MapPage {...props}/>}  animationStyle={this.animationStyle} hideNavBar/>
           <Scene key = 'truck_view' component = {(props) => <TruckView {...props}/>} direction = 'vertical' hideNavBar/>
         </Scene>
       </Router>

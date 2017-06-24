@@ -13,10 +13,17 @@ import {
   PixelRatio
 } from 'react-native';
 
+const timer = require('react-native-timer');
 import Button from 'react-native-animated-button';
 import {Actions} from 'react-native-router-flux';
 
 export default class home extends Component {
+  componentDidMount(){
+    timer.setTimeout(
+      this, 'next_page',() => Actions.mappage(), 1500
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -27,26 +34,6 @@ export default class home extends Component {
           <Text style={styles.subtext}>
             the app you never knew you always needed
           </Text>
-          <Button
-            style={{marginTop:10,alignSelf:'center', height: 55,width:80, backgroundColor: '#14E53A', borderWidth: 1 / PixelRatio.get(), borderColor: '#0033FF', borderRadius: 5}}
-            imageStyle={{height:50,width:50}}
-            activeStyle={{marginTop:10,alignSelf:'center',height: 55,width:90, backgroundColor: '#14E53A', borderWidth: 1 / PixelRatio.get(), borderColor: '#0033FF', borderRadius: 5}}
-            text="Login"
-            animated={true}
-            type="iconLeft"
-            onLongPress={() => {
-          ;
-        }}
-            onPress={() => {
-
-        }}
-            onPressIn={() => {
-            console.log("onPressIn...");
-        }}
-            onPressOut={() => {
-          Actions.mappage();
-        }}
-          />
         </View>
       </View>
     );

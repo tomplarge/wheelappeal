@@ -11,14 +11,13 @@
  */
 'use strict';
 
-var React = require('react');
-var ReactNative = require('react-native');
-var {
+import React, {Component} from 'react'
+import {
   PanResponder,
   StyleSheet,
   View,
   Dimensions,
-} = ReactNative;
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 const screen = Dimensions.get('window');
@@ -27,14 +26,15 @@ const previewBlockHeight = 100;
 const previewBlockWidth = screen.width*7/10;
 const previewBlockSpacing = 10;
 
-var PanResponderExample = React.createClass({
-  _panResponder: {},
-  // _previousLeft: 0,
-  // _previousTop: 0,
-  _previewStyles: {},
-  preview: (null : ?{ setNativeProps(props: Object): void }),
+export default class PreviewScrollItem extends Component{
+  constructor(props){
+    super(props);
+    var _panResponder = {};
+    var _previewStyles = {};
+    var preview = (null : ?{ setNativeProps(props): void });
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -46,23 +46,21 @@ var PanResponderExample = React.createClass({
     this._previewStyles = {
       style: {
         width: previewBlockWidth,
-        height: screen.height,
+        height: previewBlockHeight,
         marginHorizontal: previewBlockSpacing,
         backgroundColor: 'green',
         overflow: 'hidden',
         borderRadius: 3,
         borderColor: '#000',
-        open: 0,
-        top: 0
       }
     };
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this._updateNativeStyles();
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <View
         {...this.props}>
@@ -75,68 +73,57 @@ var PanResponderExample = React.createClass({
         />
       </View>
     );
-  },
+  }
 
-  _highlight: function() {
+  _highlight = () => {
     this._previewStyles.style.backgroundColor = 'blue';
-    if (this._previewStyles.style.open == 1) {
-      this._previewStyles.style.open = 0;
-      this._previewStyles.style.top += 200;
-    }
-    else{
-      this._previewStyles.style.open = 1;
-      this._previewStyles.style.top -= 200;
-    }
     this._updateNativeStyles();
-  },
+  }
 
-  _unHighlight: function() {
+  _unHighlight = () => {
     this._previewStyles.style.backgroundColor = 'green';
     this._updateNativeStyles();
-  },
+  }
 
-  _updateNativeStyles: function() {
+  _updateNativeStyles() {
     this.preview.setNativeProps(this._previewStyles);
-  },
+  }
 
-  _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
+  _handleStartShouldSetPanResponder = (e, gestureState) => {
     // Should we become active when the user presses down on the circle?
     return true;
-  },
+  }
 
-  _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
+  _handleMoveShouldSetPanResponder = (e, gestureState) => {
     // Should we become active when the user moves a touch over the circle?
     this._previewStyles.style.backgroundColor = 'green';
     this._updateNativeStyles();
-  },
+  }
 
-  _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+  _handlePanResponderGrant = (e, gestureState) => {
     this._highlight();
-  },
-  _handlePanResponderMove: function(e: Object, gestureState: Object) {
+  }
+  _handlePanResponderMove = (e, gestureState) => {
     // this._previewStyles.style.left = this._previousLeft + gestureState.dx;
     // this._previewStyles.style.top = this._previousTop + gestureState.dy;
     this._unHighlight()
-  },
-  _handlePanResponderEnd: function(e: Object, gestureState: Object) {
+  }
+  _handlePanResponderEnd = (e, gestureState) => {
     if (this._previewStyles.style.backgroundColor == 'blue') {
       this._unHighlight()
       Actions.truck_view()
     }
-  },
-});
+  }
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   preview: {
     width: previewBlockWidth,
-    height: screen.height,
+    height: previewBlockHeight,
     marginHorizontal: previewBlockSpacing,
     backgroundColor: 'green',
     overflow: 'hidden',
     borderRadius: 3,
     borderColor: '#000',
-    //top: screen.height - previewBlockHeight
   },
 });
-
-module.exports = PanResponderExample;
