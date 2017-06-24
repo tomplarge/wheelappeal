@@ -19,6 +19,7 @@ var {
   View,
   Dimensions,
 } = ReactNative;
+import {Actions} from 'react-native-router-flux';
 
 const screen = Dimensions.get('window');
 
@@ -52,7 +53,7 @@ var PanResponderExample = React.createClass({
         borderRadius: 3,
         borderColor: '#000',
         open: 0,
-        top: screen.height - previewBlockHeight
+        top: 0
       }
     };
   },
@@ -64,7 +65,6 @@ var PanResponderExample = React.createClass({
   render: function() {
     return (
       <View
-        style={styles.container}
         {...this.props}>
         <View
           ref={(preview) => {
@@ -101,12 +101,13 @@ var PanResponderExample = React.createClass({
 
   _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
     // Should we become active when the user presses down on the circle?
-    return false;
+    return true;
   },
 
   _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
     // Should we become active when the user moves a touch over the circle?
-    return false;
+    this._previewStyles.style.backgroundColor = 'green';
+    this._updateNativeStyles();
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
@@ -115,12 +116,13 @@ var PanResponderExample = React.createClass({
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
     // this._previewStyles.style.left = this._previousLeft + gestureState.dx;
     // this._previewStyles.style.top = this._previousTop + gestureState.dy;
-    this._updateNativeStyles();
+    this._unHighlight()
   },
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    this._unHighlight();
-    // this._previousLeft += gestureState.dx;
-    // this._previousTop += gestureState.dy;
+    if (this._previewStyles.style.backgroundColor == 'blue') {
+      this._unHighlight()
+      Actions.truck_view()
+    }
   },
 });
 
@@ -134,9 +136,6 @@ var styles = StyleSheet.create({
     borderRadius: 3,
     borderColor: '#000',
     //top: screen.height - previewBlockHeight
-  },
-  container: {
-    flex: 1,
   },
 });
 

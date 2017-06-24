@@ -1,6 +1,6 @@
 import MapView from 'react-native-maps';
 import React, {Component} from "react";
-import MapViewPanController from './MapViewPanController'
+import PreviewScrollItem from './PreviewScrollItem';
 //import PreviewPanController from './PreviewPanController'
 import {
     Text,
@@ -92,26 +92,6 @@ export default class MapPage extends Component {
     this.setState({region})
   }
 
-  onStartShouldSetPanResponder = (e) => {
-    // we only want to move the view if they are starting the gesture on top
-    // of the view, so this calculates that and returns true if so. If we return
-    // false, the gesture should get passed to the map view appropriately.
-    const { pageY } = e.nativeEvent;
-    const topOfPreviewBlock = previewBlockHeight;
-    const topOfTap = screen.height - pageY;
-    return topOfTap < topOfPreviewBlock;
-  }
-
-  onMoveShouldSetPanResponder = (e) => {
-    // we only want to move the view if they are starting the gesture on top
-    // of the view, so this calculates that and returns true if so. If we return
-    // false, the gesture should get passed to the map view appropriately.
-    const { pageY } = e.nativeEvent;
-    const topOfPreviewBlock = previewBlockHeight;
-    const topOfTap = screen.height - pageY;
-    return topOfTap < topOfPreviewBlock;
-  }
-
   render() {
     const {
       markers,
@@ -133,10 +113,11 @@ export default class MapPage extends Component {
             ))}
         </MapView>
         <FlatList
+          style = {{top: 400}}
           horizontal={true}
           data={markers}
           renderItem={({ marker }) => (
-            <MapViewPanController/>
+            <PreviewScrollItem style = {{top: 0}}/>
           )}
         />
       </View>
