@@ -16,7 +16,6 @@ import {
 const timer = require('react-native-timer');
 import Button from 'react-native-animated-button';
 import {Actions} from 'react-native-router-flux';
-
 export default class home extends Component {
   componentDidMount(){
     timer.setTimeout(

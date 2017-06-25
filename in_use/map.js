@@ -2,6 +2,7 @@ import MapView from 'react-native-maps';
 import React, {Component} from "react";
 import PreviewScrollItem from './PreviewScrollItem';
 import SearchBar from 'react-native-searchbar'
+import Icon from "react-native-vector-icons/MaterialIcons"
 //import PreviewPanController from './PreviewPanController'
 import {
     Text,
@@ -90,11 +91,15 @@ export default class MapPage extends Component {
   }
 
   onRegionChange(region) {
-    this.setState({region})
+    this.setState({region});
   }
 
   componentWillMount(){
-    this.render()
+    //this.render()
+  }
+
+  componentDidMount(){
+    //this.searchbar.show();
   }
 
   render() {
@@ -105,7 +110,8 @@ export default class MapPage extends Component {
     return (
       <View style = {styles.container}>
           <SearchBar
-            showOnLoad
+            ref={(ref) => this.searchbar = ref}
+            placeholder='Search Food Trucks'
           />
           <MapView
             style={ styles.map }
@@ -120,9 +126,24 @@ export default class MapPage extends Component {
               />
             ))}
         </MapView>
+        <View
+          style = {{
+            top: 20,
+            left: screen.width-50,
+            shadowOffset: {
+              width: 0,
+              height: 3
+            },
+            shadowRadius: 5,
+            shadowOpacity: 1.0
+          }}
+        >
+          <Icon.Button size={35} style={{height: 50}}name="search" backgroundColor="#3b5998" onPress={() => {this.searchbar.show()}}/>
+        </View>
         <FlatList
           style = {{
-            top: screen.height - 125,
+            top: screen.height - 100,
+            position: 'absolute',
             shadowColor: '#000000',
             shadowOffset: {
               width: 0,
