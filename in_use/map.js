@@ -1,8 +1,9 @@
 import MapView from 'react-native-maps';
 import React, {Component} from "react";
-import PreviewScrollItem from './PreviewScrollItem';
-import SearchBar from 'react-native-searchbar'
-import Icon from "react-native-vector-icons/MaterialIcons"
+import TruckView from './truck_view';
+import SearchBar from 'react-native-searchbar';
+import Icon from "react-native-vector-icons/MaterialIcons";
+import Modal from 'react-native-modal';
 //import PreviewPanController from './PreviewPanController'
 import {
     Text,
@@ -10,9 +11,12 @@ import {
     StyleSheet,
     Dimensions,
     Animated,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from "react-native";
 
+const GREEN = '#4fc29f'
+const ORANGE = '#ffc33d'
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
@@ -25,6 +29,7 @@ const previewBlockSpacing = 10;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    flex: 1
   },
   map: {
     backgroundColor: 'transparent',
@@ -40,23 +45,32 @@ const styles = StyleSheet.create({
   },
 
   previewBlock: {
-    width: previewBlockWidth,
-    height: screen.height,
-    marginHorizontal: previewBlockSpacing,
-    backgroundColor: 'green',
-    overflow: 'hidden',
-    borderRadius: 3,
-    borderColor: '#000',
+      justifyContent: 'center',
+      width: previewBlockWidth,
+      height: previewBlockHeight,
+      marginHorizontal: previewBlockSpacing,
+      backgroundColor: GREEN,
+      overflow: 'hidden',
+      borderRadius: 3,
+      borderColor: '#000',
   },
 });
 
 export default class MapPage extends Component {
   constructor(props) {
     super(props);
-
-    const markers = [
+    truckData = [
+      {name: 'Burreato', cuisine:'mexican', price:1, waitTime:10,
+        'menu':[{item:'burrito', price: 7, id:0}, {item:'taco', price: 3, id:1},{item:'combo', price: 10, id:2}]},
+      {name: 'The Wok', cuisine:'chinese', price:2, waitTime:5,
+        'menu':[{item:'dumplings', price: 3, id:0}, {item:'lo mein', price: 7, id:1},{item:'combo', price: 10, id:2}]},
+      {name: 'Get Phat Here', cuisine:'american', price:4, waitTime:15,
+        'menu':[{item:'burger', price: 7, id:0}, {item:'fries', price: 3, id:1},{item:'combo', price: 10, id:2}]}
+    ];
+    markers = [
       {
         key:0,
+        title: '1',
         coordinate: {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -64,6 +78,7 @@ export default class MapPage extends Component {
       },
       {
         key:1,
+        title: '2',
         coordinate: {
           latitude: LATITUDE + 0.004,
           longitude: LONGITUDE - 0.004,
@@ -71,6 +86,7 @@ export default class MapPage extends Component {
       },
       {
         key:2,
+        title: '3',
         coordinate: {
           latitude: LATITUDE - 0.004,
           longitude: LONGITUDE - 0.004,
@@ -78,29 +94,55 @@ export default class MapPage extends Component {
       },
     ];
 
+    region = {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+
+    modalOpen = false
     this.state = {
+      truckIndex: null,
+      modalOpen,
+      region,
       markers,
-      scrollX_bool: true,
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
+      showMyLocation: false,
     }
   }
 
-  onRegionChange(region) {
-    this.setState({region});
+  onRegionChange = (reg) => {
+    if (this.state.showMyLocation == true){
+      this.showCurrentLocation();
+    }
+
+    this.setState({region: reg, showMyLocation: false});
   }
 
   componentWillMount(){
-    //this.render()
+    this.setState({modalOpen: false})
   }
 
-  componentDidMount(){
-    //this.searchbar.show();
+  componentDidMount = () => {
+
   }
+
+  showCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+      {
+        this.setState({
+          region:
+          {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            latitudeDelta: 0.0421,
+            longitudeDelta: 0.0922
+          },
+        });
+    });
+  }
+
 
   render() {
     const {
@@ -109,21 +151,29 @@ export default class MapPage extends Component {
 
     return (
       <View style = {styles.container}>
-          <SearchBar
-            ref={(ref) => this.searchbar = ref}
-            placeholder='Search Food Trucks'
-          />
-          <MapView
-            style={ styles.map }
-            region={this.state.region}
-            onRegionChange={this.onRegionChange.bind(this)}
-          >
-            {this.state.markers.map(marker => (
-              <MapView.Marker
-                key = {marker.key}
-                coordinate={marker.coordinate}
-                title={marker.key.toString()}
-              />
+      <Modal isVisible={this.state.modalOpen} style = {{top: 0}}>
+        <TruckView
+          truckName = {this.state.truckIndex === null ? null : truckData[this.state.truckIndex]['name']}
+          onPress = {() => {this.setState({modalOpen: false})}}
+          menu = {this.state.truckIndex === null ? null : truckData[this.state.truckIndex]['menu']}/>
+      </Modal>
+        <SearchBar
+          ref={(ref) => this.searchbar = ref}
+          placeholder='Search Food Trucks'
+        />
+        <MapView
+        ref={map => this.map = map}
+          showsUserLocation
+          style={ styles.map }
+          region={this.state.region}
+          onRegionChange={() => {this.onRegionChange()}}
+        >
+          {this.state.markers.map(marker => (
+            <MapView.Marker
+              key = {marker.key}
+              coordinate={marker.coordinate}
+              title={marker.key.toString()}
+            />
             ))}
         </MapView>
         <View
@@ -138,13 +188,14 @@ export default class MapPage extends Component {
             shadowOpacity: 1.0
           }}
         >
-          <Icon.Button size={35} style={{height: 50}}name="search" backgroundColor="#3b5998" onPress={() => {this.searchbar.show()}}/>
+          <Icon.Button size={35} style={{height: 50}} name="search" backgroundColor="#3b5998"
+            onPress={() => {this.searchbar.show()}}
+          />
         </View>
-        <FlatList
+        <View
           style = {{
-            top: screen.height - 100,
-            position: 'absolute',
-            shadowColor: '#000000',
+            top: 40,
+            left: screen.width-50,
             shadowOffset: {
               width: 0,
               height: 3
@@ -152,12 +203,30 @@ export default class MapPage extends Component {
             shadowRadius: 5,
             shadowOpacity: 1.0
           }}
+        >
+          <Icon.Button size={35} style={{height: 50}} name="my-location" backgroundColor="#3b5998"
+            onPress={() => {
+              this.setState({
+                showMyLocation: true,
+              });
+            }}
+          />
+        </View>
+        <FlatList
+          style = {{
+            top: screen.height - 100,
+            position: 'absolute',
+          }}
           horizontal={true}
           data={markers}
 
-          renderItem={({ marker }) => (
-            <PreviewScrollItem style = {{top: 0}}/>
-          )}
+          renderItem={({item}) =>
+            <TouchableOpacity
+              onPress={() => {this.setState({modalOpen: true, truckIndex: item.key})}}
+              style = {styles.previewBlock}>
+                <Text style = {{alignSelf: 'center', fontSize: 20}}> {truckData[item.key].name} </Text>
+            </TouchableOpacity>
+          }
         />
       </View>
     );

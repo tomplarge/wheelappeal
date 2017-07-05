@@ -17,6 +17,7 @@ import {
   StyleSheet,
   View,
   Dimensions,
+  Text,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -62,15 +63,16 @@ export default class PreviewScrollItem extends Component{
 
   render() {
     return (
-      <View
-        {...this.props}>
+      <View>
         <View
           ref={(preview) => {
             this.preview = preview;
           }}
-          style={styles.preview}
+          style={styles.preview} {...this.props.containerStyle}
           {...this._panResponder.panHandlers}
-        />
+        >
+          <Text style = {this.props.textStyle}> {this.props.text} </Text>
+        </View>
       </View>
     );
   }

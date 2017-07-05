@@ -13,9 +13,13 @@ import {
   PixelRatio
 } from 'react-native';
 
+const GREEN = '#4fc29f'
+const ORANGE = '#ffc33d'
 const timer = require('react-native-timer');
+
 import Button from 'react-native-animated-button';
 import {Actions} from 'react-native-router-flux';
+
 export default class home extends Component {
   componentDidMount(){
     timer.setTimeout(
@@ -43,12 +47,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: "#1789FC",
+    backgroundColor: GREEN,
   },
   welcome: {
     fontSize: 50,
     fontWeight: 'bold',
-    color: "#14E53A",
+    color: ORANGE,
   },
   subtext: {
     fontSize: 20,
