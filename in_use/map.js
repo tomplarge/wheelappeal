@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
 
   previewBlock: {
+      flex: 1,
       justifyContent: 'center',
       width: previewBlockWidth,
       height: previewBlockHeight,
@@ -70,7 +71,7 @@ export default class MapPage extends Component {
     markers = [
       {
         key:0,
-        title: '1',
+        data: truckData[0],
         coordinate: {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -78,18 +79,18 @@ export default class MapPage extends Component {
       },
       {
         key:1,
-        title: '2',
+        data: truckData[1],
         coordinate: {
-          latitude: LATITUDE + 0.004,
-          longitude: LONGITUDE - 0.004,
+          latitude: LATITUDE + 0.01,
+          longitude: LONGITUDE - 0.01,
         },
       },
       {
         key:2,
-        title: '3',
+        data: truckData[2],
         coordinate: {
-          latitude: LATITUDE - 0.004,
-          longitude: LONGITUDE - 0.004,
+          latitude: LATITUDE - 0.01,
+          longitude: LONGITUDE - 0.01,
         },
       },
     ];
@@ -107,16 +108,15 @@ export default class MapPage extends Component {
       modalOpen,
       region,
       markers,
-      showMyLocation: false,
     }
   }
 
-  onRegionChange = (reg) => {
-    if (this.state.showMyLocation == true){
-      this.showCurrentLocation();
-    }
+  onPress = (marker) => {
+    this.list.scrollToIndex({index: marker.key})
+  }
 
-    this.setState({region: reg, showMyLocation: false});
+  onRegionChange = (reg) => {
+    this.setState({region: reg});
   }
 
   componentWillMount(){
@@ -124,10 +124,10 @@ export default class MapPage extends Component {
   }
 
   componentDidMount = () => {
-
+    this.setCurrentLocation()
   }
 
-  showCurrentLocation = () => {
+  setCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) =>
       {
@@ -140,10 +140,19 @@ export default class MapPage extends Component {
             longitudeDelta: 0.0922
           },
         });
+
+        this.map.region = this.state.region
     });
   }
 
-
+  // there might be a system string operation for multiplication
+  priceText(num) {
+    str = "";
+    for (var i = 0; i < num; i++){
+      str += "$";
+    }
+    return str;
+  }
   render() {
     const {
       markers,
@@ -155,25 +164,36 @@ export default class MapPage extends Component {
         <TruckView
           truckName = {this.state.truckIndex === null ? null : truckData[this.state.truckIndex]['name']}
           onPress = {() => {this.setState({modalOpen: false})}}
-          menu = {this.state.truckIndex === null ? null : truckData[this.state.truckIndex]['menu']}/>
+          menu = {this.state.truckIndex === null ? null : truckData[this.state.truckIndex]['menu']}
+          marker = {markers[this.state.truckIndex]}
+          region = {this.state.region} //temporary
+        />
       </Modal>
         <SearchBar
           ref={(ref) => this.searchbar = ref}
           placeholder='Search Food Trucks'
         />
         <MapView
-        ref={map => this.map = map}
+          ref={map => this.map = map}
           showsUserLocation
           style={ styles.map }
           region={this.state.region}
-          onRegionChange={() => {this.onRegionChange()}}
+          onRegionChange={(reg) => {this.onRegionChange(reg)}}
         >
           {this.state.markers.map(marker => (
             <MapView.Marker
               key = {marker.key}
               coordinate={marker.coordinate}
-              title={marker.key.toString()}
-            />
+              title={marker.title}
+              onPress = {() => {this.onPress(marker)}}>
+              <MapView.Callout>
+                <View>
+                  <Text style = {{fontSize: 15}}> {marker.data.name} </Text>
+                  <Text style = {{fontSize: 10}}> Cuisine: {marker.data.cuisine}</Text>
+                  <Text style = {{fontSize: 10}}> Price: {this.priceText(marker.data.price)} </Text>
+                </View>
+              </MapView.Callout>
+            </MapView.Marker>
             ))}
         </MapView>
         <View
@@ -204,27 +224,29 @@ export default class MapPage extends Component {
             shadowOpacity: 1.0
           }}
         >
-          <Icon.Button size={35} style={{height: 50}} name="my-location" backgroundColor="#3b5998"
+          <Icon.Button size={35} style={{height: 50}} name="my-location" backgroundColor="#3b5998"n
             onPress={() => {
-              this.setState({
-                showMyLocation: true,
-              });
+              this.setCurrentLocation()
             }}
           />
         </View>
         <FlatList
+          ref={list => this.list = list}
           style = {{
             top: screen.height - 100,
             position: 'absolute',
           }}
           horizontal={true}
           data={markers}
-
+          getItemLayout = {(data,index) => (
+            {length: previewBlockWidth, offset: (previewBlockWidth+2*previewBlockSpacing)*index, index}
+          )}
           renderItem={({item}) =>
             <TouchableOpacity
               onPress={() => {this.setState({modalOpen: true, truckIndex: item.key})}}
               style = {styles.previewBlock}>
                 <Text style = {{alignSelf: 'center', fontSize: 20}}> {truckData[item.key].name} </Text>
+                <Text style = {{left: 0, bottom: 0, fontSize: 10}}> Press for info </Text>
             </TouchableOpacity>
           }
         />

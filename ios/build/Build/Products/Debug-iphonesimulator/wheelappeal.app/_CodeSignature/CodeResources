@@ -243,15 +243,15 @@
 		</data>
 		<key>PlugIns/wheelappealTests.xctest/Info.plist</key>
 		<data>
-		oGzTiZ1j1icxwZdJK/SWO7q8ct0=
+		tDvd5Z4d4uRhrgYLZXJZcxDQ1bQ=
 		</data>
 		<key>PlugIns/wheelappealTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		/gim7lKB8p14VU+ZwJt/DxAEn4M=
+		VhY5m98MjIoHWBHtZCFf9ZR+3TA=
 		</data>
 		<key>PlugIns/wheelappealTests.xctest/wheelappealTests</key>
 		<data>
-		fnMyFrM+9qtJdMJE/vIrdHqFqgc=
+		EfwvmHELhjPOuNF1fGM2tLBNWAU=
 		</data>
 		<key>SimpleLineIcons.ttf</key>
 		<data>
@@ -891,33 +891,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			oGzTiZ1j1icxwZdJK/SWO7q8ct0=
+			tDvd5Z4d4uRhrgYLZXJZcxDQ1bQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			MZkDobW5b9AVmvKpJ8Vpgk50QKN7fQ+/ocvEMFRIrLw=
+			isUosSCwJ+jXFdMc37Bz8S+0pxOsN2FMYoarPMI2e7Q=
 			</data>
 		</dict>
 		<key>PlugIns/wheelappealTests.xctest/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/gim7lKB8p14VU+ZwJt/DxAEn4M=
+			VhY5m98MjIoHWBHtZCFf9ZR+3TA=
 			</data>
 			<key>hash2</key>
 			<data>
-			rkquZBvxru6XoqZKcQXrD/6UoCY9u/rLeMal4MqDhzk=
+			tQ5V2kmMbrS6lPCEApsaLxRAk1bZU+w2bF64VZ4B1Vk=
 			</data>
 		</dict>
 		<key>PlugIns/wheelappealTests.xctest/wheelappealTests</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fnMyFrM+9qtJdMJE/vIrdHqFqgc=
+			EfwvmHELhjPOuNF1fGM2tLBNWAU=
 			</data>
 			<key>hash2</key>
 			<data>
-			lcRrmvFh8X2rCtEEshNwpHzk9sux1yciD1jCOCOSnGg=
+			OkgPdK8mLzFOISC9HziPmsi6H7c33dqTNiLCM7oL4/E=
 			</data>
 		</dict>
 		<key>SimpleLineIcons.ttf</key>
