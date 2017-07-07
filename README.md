@@ -7,4 +7,6 @@ follow instructions under "Building Projects with Native Code" under this link
 
 ## run app
 then to run the app, navigate to the wheelappeal directory in a terminal window and run
-<p> $ react-native run-ios </p>
+'''
+react-native run-ios
+'''
