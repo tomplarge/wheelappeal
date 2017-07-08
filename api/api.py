@@ -7,23 +7,10 @@ flask_api = Api(flask_app)
 
 class Menu(Resource):
     def __init__(self):
-        self.tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web',
-        'done': False
-    }
-]
+        return
 
     def get(self):
-        return self.tasks
+        return "Working!"
 
 base_endpoint = "/v1"
 menu_endpoint = '/'.join((base_endpoint, "menu"))
