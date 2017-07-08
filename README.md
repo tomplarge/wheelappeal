@@ -53,7 +53,7 @@ You should see text returned.
 
 Website -- Transitioning REST API here
 ----------
-The website currently holds information about WheelAppeal at <href> www.wheealappeal.co </href>. The API is currently hosted as well at <href> www.wheealappeal.co/api </href>
+The website currently holds information about WheelAppeal at <href> http://www.wheealappeal.co </href>. The API is currently hosted as well at <href> http://www.wheealappeal.co/api </href>
 
 If you are starting up the server, you must have the following prerequisites:
 - (Optional) Docker (see <href> https://docs.docker.com/engine/installation/ </href>)
