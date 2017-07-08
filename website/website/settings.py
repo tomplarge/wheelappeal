@@ -24,7 +24,7 @@ SECRET_KEY = 'h%cotnhy&(j8bh6l24=-%6+m#9dqqmia+so@b&z)3nv!7dx*&p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','ec2-18-220-39-17.us-east-2.compute.amazonaws.com','13.59.177.207','wheelappeal.co','www.wheelappeal.co']
+ALLOWED_HOSTS = ['127.0.0.1','13.59.2.226','13.59.177.207','wheelappeal.co','www.wheelappeal.co']
 
 
 # Application definition
