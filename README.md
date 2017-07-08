@@ -25,7 +25,9 @@ This should start up a terminal window for the JS development server and an iPho
 REST API
 ----------
 The REST Api is used for querying our MySQL database for food truck data. Currently, the API can be reached by a GET request at the following address:
-> ec2-13-59-2-226.us-east-2.compute.amazonaws.com/v1/menu
+```
+ec2-13-59-2-226.us-east-2.compute.amazonaws.com/v1/menu
+```
 
 This API currently utilizes Docker as a container for the API and gunicorn as an HTTP server.
 
