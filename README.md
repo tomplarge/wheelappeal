@@ -22,7 +22,7 @@ react-native run-ios
 
 This should start up a terminal window for the JS development server and an iPhone simulator containing the mobile app.
 
-REST API
+REST API -- OBSOLETE
 ----------
 The REST Api is used for querying our MySQL database for food truck data. Currently, the API can be reached by a GET request at the following address:
 ```
@@ -51,38 +51,54 @@ curl localhost/v1/menu
 ```
 You should see text returned.
 
-Website
+Website -- Transitioning REST API here
 ----------
-The website currently holds information about WheelAppeal, and is hosted at <href> www.wheealappeal.co </href>
+The website currently holds information about WheelAppeal at <href> www.wheealappeal.co </href>. The API is currently hosted as well at <href> www.wheealappeal.co/api </href>
 
 If you are starting up the server, you must have the following prerequisites:
+- (Optional) Docker (see <href> https://docs.docker.com/engine/installation/ </href>)
 - Django (see <href> https://docs.djangoproject.com/en/1.11/topics/install/ </href>)
 - (Optional) Nginx (see <href> https://www.nginx.com/resources/wiki/start/topics/tutorials/install/ </href>)
 
-To run locally on port 8000
-Then, to begin hosting the website, run the following:
+First, change into the website directory
 ```
 cd wheelappeal/website
+```
+To run locally with Docker (and gunicorn):
+```
+docker buld -t web .
+docker run -d -p 8000:8000
+```
+To run locally with Django:
+```
 python manage.py runserver
 ```
 
-To confirm the website is running properly, navigate to the following address in your browser:
+Paste the address below into a web browser to confirm:
+
 ```
 localhost:8000
 ```
 
-To run on an EC2 instance on port 80, do the following:
+To run on an EC2 instance  do the following:
+- Add the IP address and 127.0.0.1 to ALLOWED_HOSTS array in settings.py
 ```
-cd wheelappeal/website
 vim website/settings.py
 ```
-Add the IP address of the EC2 instance and '127.0.0.1' to the ALLOWED_HOSTS array. Then run:
-
+- Copy the nginx.conf file to nginx directory
+```
+sudo cp website/nginx.conf /etc/nginx/nginx.conf
+```
+- Start nginx
+```
+service nginx start
+```
+- Build Docker image
 ```
 docker build -t web .
-docker run -d -p 80:8000 web
+docker run -d -p 8000:8000 web
 ```
-To confirm the website is running properly, navigate to the IP address of the instance in your browser, or alternatively, run:
+- Go to the IP address of the instance in a web browser to confirm. Alternatively, run:
 ```
 curl 127.0.0.1
 ```
