@@ -54,9 +54,8 @@ Website
 The website currently holds information about WheelAppeal, and is hosted at <href> www.wheealappeal.co </href>
 
 If you are starting up the server, you must have the following prerequisites:
-> Django (see <href> https://docs.djangoproject.com/en/1.11/topics/install/ </href>)
-> Nginx (see <href> https://www.nginx.com/resources/wiki/start/topics/tutorials/install/ </href>)
-> (Optional) gunicorn (pip install gunicorn)
+- Django (see <href> https://docs.djangoproject.com/en/1.11/topics/install/ </href>)
+- Nginx (see <href> https://www.nginx.com/resources/wiki/start/topics/tutorials/install/ </href>)
 
 Then, to begin hosting the website, run the following:
 ```
