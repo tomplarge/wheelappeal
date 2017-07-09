@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 from flask_restful import Resource, Api
 import os, sys
 
+# self-created
+from utils import *
+
 flask_app = Flask(__name__)
 flask_api = Api(flask_app)
 
@@ -10,7 +13,8 @@ class Menu(Resource):
         return
 
     def get(self):
-        return "Working!"
+        trucks = get_trucks()
+        return trucks
 
 base_endpoint = "/v1"
 menu_endpoint = '/'.join((base_endpoint, "menu"))
